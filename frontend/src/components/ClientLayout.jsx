@@ -17,6 +17,20 @@ const ClientLayout = ({ children }) => {
   const navItems = isDirectLink
     ? [
         {
+          name: "Dashboard",
+          path: `/client/dashboard?token=${directToken}`,
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+          ),
+        },
+        {
           name: "Profile",
           path: `/client/profile?token=${directToken}`,
           icon: (
@@ -66,7 +80,7 @@ const ClientLayout = ({ children }) => {
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-['Quicksand'] text-slate-800">
       {/* Mobile Top Header */}
       <div className="md:hidden bg-white border-b border-slate-200/80 px-5 py-3.5 flex items-center justify-between shadow-xs">
-        <Link to={isDirectLink ? `/client/profile?token=${directToken}` : "/client/dashboard"}>
+        <Link to={isDirectLink ? `/client/dashboard?token=${directToken}` : "/client/dashboard"}>
           <img
             src="/logo.png"
             alt="Logo"
@@ -101,7 +115,7 @@ const ClientLayout = ({ children }) => {
           {/* Logo Branding - Clean logo only without text */}
           <div className="p-6 border-b border-slate-100 hidden md:flex items-center justify-center">
             <Link
-              to={isDirectLink ? `/client/profile?token=${directToken}` : "/client/dashboard"}
+              to={isDirectLink ? `/client/dashboard?token=${directToken}` : "/client/dashboard"}
               className="transition-transform hover:scale-105"
             >
               <img

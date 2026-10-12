@@ -304,7 +304,7 @@ const AdminDashboard = () => {
                     </td>
                     <td className="py-4 px-6 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-2">
-                        {item.status !== "Approved" && (
+                        {item.status === "Pending" && (
                           <button
                             onClick={() => handleUpdateStatus(item.id, "Approved", item.company_name)}
                             disabled={actionLoadingId === item.id}

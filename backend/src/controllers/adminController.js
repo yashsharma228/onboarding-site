@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import pool from "../config/db.js";
-import { sendClientApprovalEmail } from "../utils/emailService.js";
+import { sendClientApprovalEmail, sendClientRejectionEmail } from "../utils/emailService.js";
 
 // Helper to generate unique Login ID (e.g. APX-4821)
 const generateUniqueLoginId = async () => {
@@ -142,6 +142,56 @@ export const updateSignupStatus = async (req, res) => {
         });
       } catch (mailErr) {
         console.error("Failed to send client approval email:", mailErr.message);
+      }
+    }
+
+    // When admin rejects, generate private client profile link and send rejection email
+    if (status === "Rejected") {
+      let token = null;
+      const [existingClients] = await pool.query(
+        "SELECT id, login_id, direct_token FROM clients WHERE email = ?",
+        [signup.email]
+      );
+
+      if (existingClients.length > 0) {
+        token = existingClients[0].direct_token;
+        if (!token) {
+          token = crypto.randomBytes(32).toString("hex");
+          await pool.query("UPDATE clients SET direct_token = ? WHERE id = ?", [token, existingClients[0].id]);
+        }
+      } else {
+        const clientLoginId = await generateUniqueLoginId();
+        token = crypto.randomBytes(32).toString("hex");
+        const randomPass = generateRandomPassword();
+        const passwordHash = await bcrypt.hash(randomPass, 10);
+
+        await pool.query(
+          `INSERT INTO clients (login_id, company_name, business_type, contact_name, email, password_hash, direct_token, source, signature_status, project_status, is_archived)
+           VALUES (?, ?, ?, ?, ?, ?, ?, 'signup_form', 'Awaiting', 'Not Started', 0)`,
+          [
+            clientLoginId,
+            signup.company_name,
+            signup.business_type || null,
+            signup.contact_name,
+            signup.email,
+            passwordHash,
+            token,
+          ]
+        );
+      }
+
+      const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+      const directUrl = `${frontendUrl}/client/profile?token=${token}`;
+
+      try {
+        await sendClientRejectionEmail({
+          toEmail: signup.email,
+          contactName: signup.contact_name,
+          companyName: signup.company_name,
+          directUrl,
+        });
+      } catch (mailErr) {
+        console.error("Failed to send client rejection email:", mailErr.message);
       }
     }
 
