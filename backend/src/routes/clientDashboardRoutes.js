@@ -4,12 +4,16 @@ import {
   getClientProfile,
   updateClientProfile,
   changeClientPassword,
+  getDirectClientProfile,
 } from "../controllers/clientDashboardController.js";
 import { authenticateClient } from "../middleware/clientAuthMiddleware.js";
 
 const router = express.Router();
 
-// All routes here are protected with authenticateClient
+// Direct passwordless client profile access via secure token
+router.get("/direct-profile", getDirectClientProfile);
+
+// Authenticated client portal routes
 router.use(authenticateClient);
 
 router.get("/dashboard", getClientDashboardData);

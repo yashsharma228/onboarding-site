@@ -173,3 +173,57 @@ export const sendClientPasswordResetEmail = async ({ toEmail, contactName, compa
   return await mailer.sendMail(mailOptions);
 };
 
+export const sendClientDirectLinkEmail = async ({ toEmail, contactName, companyName, directUrl }) => {
+  const mailer = getTransporter();
+  const fromName = process.env.SMTP_FROM_NAME || "Aptionix";
+  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
+
+  const mailOptions = {
+    from: `"${fromName}" <${fromEmail}>`,
+    to: toEmail,
+    subject: `${companyName} — Your Client Profile Access Link`,
+    html: `
+      <div style="font-family: 'Quicksand', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h1 style="color: #4f46e5; font-size: 24px; font-weight: 700; margin: 0;">${fromName}</h1>
+          <p style="color: #64748b; font-size: 13px; margin: 4px 0 0 0;">Client Profile Overview</p>
+        </div>
+
+        <h2 style="color: #0f172a; font-size: 19px; margin-top: 0;">Hello, ${contactName || "Valued Client"}!</h2>
+        <p style="color: #475569; font-size: 15px; line-height: 1.6;">
+          Your client account for <strong>${companyName}</strong> has been created. You can review your profile information directly using your private access link below.
+        </p>
+
+        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin: 22px 0;">
+          <p style="margin: 0; color: #64748b; font-size: 13px;">
+            <strong style="color: #1e293b;">Note:</strong> No login ID or password is required. This private link provides direct access to your profile.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin: 28px 0;">
+          <a href="${directUrl}" style="display: inline-block; padding: 13px 32px; background-color: #4f46e5; color: #ffffff; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);">
+            View Your Profile
+          </a>
+        </div>
+
+        <p style="color: #94a3b8; font-size: 12px; line-height: 1.5; text-align: center; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+          If the button doesn't work, copy and paste this URL into your browser:<br/>
+          <a href="${directUrl}" style="color: #4f46e5; text-decoration: underline; word-break: break-all;">${directUrl}</a>
+        </p>
+
+        <div style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 20px;">
+          &copy; ${new Date().getFullYear()} ${fromName}. All rights reserved.
+        </div>
+      </div>
+    `,
+  };
+
+  if (!mailer) {
+    console.log(`[Email Simulation] Direct link sent to ${toEmail} | URL: ${directUrl}`);
+    return { success: true, simulated: true };
+  }
+
+  return await mailer.sendMail(mailOptions);
+};
+
+

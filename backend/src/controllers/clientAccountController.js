@@ -1,5 +1,7 @@
 import pool from "../config/db.js";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import { sendClientDirectLinkEmail } from "../utils/emailService.js";
 
 // Helper to calculate payment status
 const calculatePaymentStatus = (totalAmount, amountPaid) => {
@@ -659,4 +661,78 @@ export const createClientByAdmin = async (req, res) => {
     return res.status(500).json({ success: false, message: "Failed to create client account." });
   }
 };
+
+// POST /api/admin/clients/:id/direct-link - Get or generate direct passwordless access link
+export const generateClientDirectLink = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [clients] = await pool.query("SELECT id, direct_token, email, company_name FROM clients WHERE id = ?", [id]);
+    if (clients.length === 0) {
+      return res.status(404).json({ success: false, message: "Client not found." });
+    }
+
+    let token = clients[0].direct_token;
+    if (!token) {
+      token = crypto.randomBytes(32).toString("hex");
+      await pool.query("UPDATE clients SET direct_token = ? WHERE id = ?", [token, id]);
+    }
+
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const directUrl = `${frontendUrl}/client/profile?token=${token}`;
+
+    return res.json({
+      success: true,
+      direct_url: directUrl,
+      token,
+    });
+  } catch (error) {
+    console.error("Generate client direct link error:", error);
+    return res.status(500).json({ success: false, message: "Failed to generate direct access link." });
+  }
+};
+
+// POST /api/admin/clients/:id/send-direct-email - Send direct passwordless link to client email
+export const sendClientDirectEmail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [clients] = await pool.query(
+      "SELECT id, direct_token, email, contact_name, company_name FROM clients WHERE id = ?",
+      [id]
+    );
+    if (clients.length === 0) {
+      return res.status(404).json({ success: false, message: "Client not found." });
+    }
+
+    const client = clients[0];
+    if (!client.email) {
+      return res.status(400).json({ success: false, message: "Client does not have a registered email address." });
+    }
+
+    let token = client.direct_token;
+    if (!token) {
+      token = crypto.randomBytes(32).toString("hex");
+      await pool.query("UPDATE clients SET direct_token = ? WHERE id = ?", [token, id]);
+    }
+
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const directUrl = `${frontendUrl}/client/profile?token=${token}`;
+
+    await sendClientDirectLinkEmail({
+      toEmail: client.email,
+      contactName: client.contact_name,
+      companyName: client.company_name,
+      directUrl,
+    });
+
+    return res.json({
+      success: true,
+      message: `Direct profile link sent successfully to ${client.email}.`,
+      direct_url: directUrl,
+    });
+  } catch (error) {
+    console.error("Send client direct email error:", error);
+    return res.status(500).json({ success: false, message: "Failed to send email to client." });
+  }
+};
+
 

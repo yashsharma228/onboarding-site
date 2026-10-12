@@ -16,6 +16,8 @@ import {
   updateClientStatus,
   deleteOrArchiveClient,
   restoreClient,
+  generateClientDirectLink,
+  sendClientDirectEmail,
 } from "../controllers/clientAccountController.js";
 import {
   getPlans,
@@ -49,6 +51,8 @@ router.post("/clients/:id/payments", recordPayment);
 router.patch("/clients/:id/status", updateClientStatus);
 router.delete("/clients/:id", deleteOrArchiveClient);
 router.patch("/clients/:id/restore", restoreClient);
+router.post("/clients/:id/direct-link", generateClientDirectLink);
+router.post("/clients/:id/send-direct-email", sendClientDirectEmail);
 
 // Admin profile & credentials
 router.get("/profile", getProfile);

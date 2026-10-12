@@ -148,3 +148,33 @@ export const changeClientPassword = async (req, res) => {
     return res.status(500).json({ success: false, message: "Failed to change password." });
   }
 };
+
+// GET /api/client/direct-profile?token=xxx (Direct passwordless access)
+export const getDirectClientProfile = async (req, res) => {
+  try {
+    const { token } = req.query;
+    if (!token || typeof token !== "string" || !token.trim()) {
+      return res.status(400).json({ success: false, message: "A valid private access token is required." });
+    }
+
+    const [rows] = await pool.query(
+      `SELECT id, login_id, company_name, contact_name, email, business_type, signature_status, project_status, created_at
+       FROM clients
+       WHERE direct_token = ? AND is_archived = 0`,
+      [token.trim()]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Invalid or expired access link." });
+    }
+
+    return res.json({
+      success: true,
+      data: rows[0],
+    });
+  } catch (error) {
+    console.error("Get direct client profile error:", error);
+    return res.status(500).json({ success: false, message: "Failed to load client profile." });
+  }
+};
+

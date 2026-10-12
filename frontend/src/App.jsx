@@ -27,8 +27,13 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Protected Client Route Guard
+// Protected Client Route Guard (supports direct private link token)
 const ClientProtectedRoute = ({ children }) => {
+  const directToken = new URLSearchParams(window.location.search).get("token");
+  if (directToken) {
+    return children;
+  }
+
   const token = sessionStorage.getItem("clientToken");
   if (!token) {
     return <Navigate to="/client/login" replace />;
