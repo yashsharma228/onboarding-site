@@ -3,6 +3,9 @@ import { motion } from "motion/react";
 import api from "../services/api.js";
 
 const ClientProfile = () => {
+  const directToken = new URLSearchParams(window.location.search).get("token");
+  const isDirectLink = Boolean(directToken);
+
   const [profile, setProfile] = useState({
     login_id: "",
     company_name: "",
@@ -33,7 +36,10 @@ const ClientProfile = () => {
   const fetchProfile = async () => {
     try {
       setProfileLoading(true);
-      const res = await api.get("/client/profile");
+      const url = isDirectLink
+        ? `/client/direct-profile?token=${encodeURIComponent(directToken)}`
+        : "/client/profile";
+      const res = await api.get(url);
       if (res.data.success && res.data.data) {
         setProfile({
           login_id: res.data.data.login_id || "",
@@ -54,7 +60,7 @@ const ClientProfile = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [directToken]);
 
   const handleProfileChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
