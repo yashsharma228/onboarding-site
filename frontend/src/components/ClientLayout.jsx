@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AlertBanner from "./AlertBanner.jsx";
+=======
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const ClientLayout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+<<<<<<< HEAD
   const [flashBanner, setFlashBanner] = useState(() => {
     try {
       const stored = sessionStorage.getItem("flashBanner");
@@ -29,6 +35,8 @@ const ClientLayout = ({ children }) => {
     return () => window.removeEventListener("show-banner", handleCustomBanner);
   }, []);
 
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
   const directToken = new URLSearchParams(location.search).get("token");
   const isDirectLink = Boolean(directToken);
 
@@ -40,6 +48,7 @@ const ClientLayout = ({ children }) => {
 
   const navItems = isDirectLink
     ? [
+<<<<<<< HEAD
       {
         name: "Dashboard",
         path: `/client/dashboard?token=${directToken}`,
@@ -99,6 +108,67 @@ const ClientLayout = ({ children }) => {
         ),
       },
     ];
+=======
+        {
+          name: "Dashboard",
+          path: `/client/dashboard?token=${directToken}`,
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+          ),
+        },
+        {
+          name: "Profile",
+          path: `/client/profile?token=${directToken}`,
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+          ),
+        },
+      ]
+    : [
+        {
+          name: "Dashboard",
+          path: "/client/dashboard",
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+          ),
+        },
+        {
+          name: "Profile",
+          path: "/client/profile",
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+          ),
+        },
+      ];
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-['Quicksand'] text-slate-800">
@@ -131,8 +201,14 @@ const ClientLayout = ({ children }) => {
 
       {/* Sidebar */}
       <aside
+<<<<<<< HEAD
         className={`${mobileMenuOpen ? "block" : "hidden"
           } md:block w-full md:w-64 bg-white text-slate-800 flex-shrink-0 flex flex-col justify-between border-r border-slate-200/80 min-h-screen md:sticky md:top-0 z-30 shadow-2xs`}
+=======
+        className={`${
+          mobileMenuOpen ? "block" : "hidden"
+        } md:block w-full md:w-64 bg-white text-slate-800 flex-shrink-0 flex flex-col justify-between border-r border-slate-200/80 min-h-screen md:sticky md:top-0 z-30 shadow-2xs`}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
       >
         <div>
           {/* Logo Branding - Clean logo only without text */}
@@ -161,10 +237,18 @@ const ClientLayout = ({ children }) => {
                   key={item.name}
                   to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
+<<<<<<< HEAD
                   className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${isActive
                       ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
                       : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
                     }`}
+=======
+                  className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                    isActive
+                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                      : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                  }`}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                 >
                   <span className={`${isActive ? "text-white" : "text-slate-400"}`}>
                     {item.icon}
@@ -200,11 +284,14 @@ const ClientLayout = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
+<<<<<<< HEAD
           {flashBanner && (
             <div className="max-w-5xl mx-auto mb-6">
               <AlertBanner banner={flashBanner} onClose={() => setFlashBanner(null)} />
             </div>
           )}
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
           {children}
         </main>
       </div>

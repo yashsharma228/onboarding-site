@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import api from "../services/api.js";
+<<<<<<< HEAD
 import AlertBanner from "../components/AlertBanner.jsx";
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 // Currency formatter helper
 const formatCurrency = (amount, currency = "INR") => {
@@ -71,7 +74,11 @@ const AdminAddClient = () => {
   const [recordingPayment, setRecordingPayment] = useState(false);
 
   // View modal tab
+<<<<<<< HEAD
   const [viewTab, setViewTab] = useState("plans"); // 'plans' | 'agreement'
+=======
+  const [viewTab, setViewTab] = useState("overview");
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
   // Fetch all clients
   const fetchClients = async () => {
@@ -187,7 +194,11 @@ const AdminAddClient = () => {
 
 
   // Open View Modal
+<<<<<<< HEAD
   const handleOpenView = async (client, initialTab = "plans") => {
+=======
+  const handleOpenView = async (client, initialTab = "overview") => {
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
     setSelectedClient(client);
     setActiveModal("view");
     setViewTab(initialTab);
@@ -302,6 +313,33 @@ const AdminAddClient = () => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  // Save Assigned Plans & Generate Link
+  const handleSavePlansAndGenerate = async () => {
+    if (!selectedClient) return;
+    setSavingPlans(true);
+    try {
+      const response = await api.post(`/admin/clients/${selectedClient.id}/plans`, {
+        plan_ids: selectedPlanIds,
+      });
+      if (response.data.success) {
+        const clientRef = selectedClient;
+        setActiveModal(null);
+        await fetchClients();
+        await handleSendDirectEmail(clientRef);
+      }
+    } catch (err) {
+      setBanner({
+        type: "error",
+        message: err.response?.data?.message || "Failed to update assigned plans.",
+      });
+    } finally {
+      setSavingPlans(false);
+    }
+  };
+
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
   // Open Delete Modal
   const handleOpenDelete = (client) => {
     setSelectedClient(client);
@@ -498,7 +536,39 @@ const AdminAddClient = () => {
       className="space-y-6 max-w-7xl mx-auto font-['Quicksand'] pb-12"
     >
       {/* Alert Banner */}
+<<<<<<< HEAD
       <AlertBanner banner={banner} onClose={() => setBanner(null)} />
+=======
+      {banner && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`p-4 rounded-2xl flex items-center justify-between shadow-xs ${banner.type === "success"
+              ? "bg-emerald-50 border border-emerald-200 text-emerald-900"
+              : "bg-rose-50 border border-rose-200 text-rose-900"
+            }`}
+        >
+          <div className="flex items-center gap-3">
+            {banner.type === "success" ? (
+              <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5 text-rose-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            )}
+            <span className="text-sm font-semibold">{banner.message}</span>
+          </div>
+          <button
+            onClick={() => setBanner(null)}
+            className="text-slate-400 hover:text-slate-600 text-sm font-bold cursor-pointer"
+          >
+            &times;
+          </button>
+        </motion.div>
+      )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
       {/* Header and Add Client Primary Button */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-slate-200/80">
@@ -580,6 +650,7 @@ const AdminAddClient = () => {
       {/* Main Client Accounts Table */}
       <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
+<<<<<<< HEAD
           <table className="w-full text-left text-sm border-collapse min-w-[1240px]">
             <thead>
               <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs uppercase font-extrabold tracking-wider whitespace-nowrap">
@@ -593,12 +664,34 @@ const AdminAddClient = () => {
                 <th className="py-4 px-4 min-w-[170px] whitespace-nowrap">Financial Summary</th>
                 <th className="py-4 px-4 text-center whitespace-nowrap">Project Status</th>
                 <th className="py-4 px-4 text-center whitespace-nowrap">Actions</th>
+=======
+          <table className="w-full text-left text-sm border-collapse min-w-[1200px]">
+            <thead>
+              <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 text-xs uppercase font-extrabold tracking-wider">
+                <th className="py-4 px-4 w-12 text-center">#</th>
+                <th className="py-4 px-4">Company Name</th>
+                <th className="py-4 px-4">Contact Person</th>
+                <th className="py-4 px-4">Email</th>
+                <th className="py-4 px-4">Login ID</th>
+                <th className="py-4 px-4">Assigned Plans</th>
+                <th className="py-4 px-4 text-center">Signature</th>
+                <th className="py-4 px-4 text-center">Payment Status</th>
+                <th className="py-4 px-4 text-right">Total Amount</th>
+                <th className="py-4 px-4 text-right">Amount Paid</th>
+                <th className="py-4 px-4 text-right">Pending</th>
+                <th className="py-4 px-4 text-center">Project Status</th>
+                <th className="py-4 px-4 text-center">Actions</th>
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
+<<<<<<< HEAD
                   <td colSpan="10" className="py-16 text-center text-slate-400">
+=======
+                  <td colSpan="13" className="py-16 text-center text-slate-400">
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                     <div className="flex flex-col items-center gap-3">
                       <svg className="animate-spin h-7 w-7 text-indigo-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -610,7 +703,11 @@ const AdminAddClient = () => {
                 </tr>
               ) : filteredClients.length === 0 ? (
                 <tr>
+<<<<<<< HEAD
                   <td colSpan="10" className="py-16 text-center text-slate-400">
+=======
+                  <td colSpan="13" className="py-16 text-center text-slate-400">
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                     <div className="flex flex-col items-center gap-2">
                       <svg className="w-10 h-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -642,6 +739,7 @@ const AdminAddClient = () => {
                       </div>
                     </td>
 
+<<<<<<< HEAD
                     {/* Contact Person & Email */}
                     <td className="py-4 px-4">
                       <div className="font-semibold text-slate-900 leading-snug">
@@ -660,15 +758,37 @@ const AdminAddClient = () => {
 
                     <td className="py-4 px-4 whitespace-nowrap min-w-[120px]">
                       <code className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/60 whitespace-nowrap inline-block tracking-normal select-all">
+=======
+                    <td className="py-4 px-4 font-semibold text-slate-800">
+                      {client.contact_name}
+                    </td>
+
+                    <td className="py-4 px-4 text-slate-600">
+                      <a
+                        href={`mailto:${client.email}`}
+                        className="hover:text-indigo-600 hover:underline transition-colors"
+                      >
+                        {client.email}
+                      </a>
+                    </td>
+
+                    <td className="py-4 px-4">
+                      <code className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/60">
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                         {client.login_id}
                       </code>
                     </td>
 
+<<<<<<< HEAD
                     <td className="py-4 px-4 whitespace-nowrap min-w-[130px]">
+=======
+                    <td className="py-4 px-4">
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                       {client.assigned_plans && client.assigned_plans.length > 0 ? (
                         <button
                           type="button"
                           onClick={() => handleOpenView(client, "plans")}
+<<<<<<< HEAD
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800 border border-indigo-200/60 shadow-2xs transition-all cursor-pointer whitespace-nowrap shrink-0"
                         >
                           <svg className="w-3.5 h-3.5 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -676,12 +796,25 @@ const AdminAddClient = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                           </svg>
                           <span className="whitespace-nowrap">View All</span>
+=======
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-800 border border-indigo-200/60 shadow-2xs transition-all cursor-pointer"
+                        >
+                          <svg className="w-3.5 h-3.5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                          <span>View All</span>
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                         </button>
                       ) : (
                         <button
                           type="button"
                           onClick={() => handleOpenAddPlan(client)}
+<<<<<<< HEAD
                           className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer whitespace-nowrap"
+=======
+                          className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer"
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                         >
                           + Assign
                         </button>
@@ -696,6 +829,7 @@ const AdminAddClient = () => {
                       {getPaymentBadge(client.payment_status)}
                     </td>
 
+<<<<<<< HEAD
                     {/* Financial Summary: Total, Paid, Pending */}
                     <td className="py-4 px-4">
                       <div className="min-w-[150px] bg-slate-50/80 p-2.5 rounded-xl border border-slate-100 space-y-1.5 text-xs">
@@ -722,6 +856,18 @@ const AdminAddClient = () => {
                           </span>
                         </div>
                       </div>
+=======
+                    <td className="py-4 px-4 text-right font-extrabold text-slate-900">
+                      {formatCurrency(client.total_amount, client.currency)}
+                    </td>
+
+                    <td className="py-4 px-4 text-right font-extrabold text-emerald-600">
+                      {formatCurrency(client.amount_paid, client.currency)}
+                    </td>
+
+                    <td className="py-4 px-4 text-right font-extrabold text-rose-600">
+                      {formatCurrency(client.amount_pending, client.currency)}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                     </td>
 
                     <td className="py-4 px-4 text-center">
@@ -977,9 +1123,26 @@ const AdminAddClient = () => {
                       type="button"
                       disabled={savingPlans}
                       onClick={handleSavePlans}
+<<<<<<< HEAD
                       className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 disabled:opacity-60 transition-all cursor-pointer flex items-center gap-2"
                     >
                       {savingPlans ? "Saving..." : "Save Assigned Plans"}
+=======
+                      className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer disabled:opacity-60"
+                    >
+                      {savingPlans ? "Saving..." : "Save Plans"}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={savingPlans}
+                      onClick={handleSavePlansAndGenerate}
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/20 disabled:opacity-60 transition-all cursor-pointer flex items-center gap-1.5"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                      </svg>
+                      <span>{savingPlans ? "Processing..." : "Generate Link"}</span>
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                     </button>
                   </div>
                 </div>
@@ -1080,7 +1243,23 @@ const AdminAddClient = () => {
                     </div>
                   </div>
 
+<<<<<<< HEAD
                   <div className="pt-2 flex flex-wrap items-center justify-end gap-3">
+=======
+                  <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      disabled={sendingDirectEmail}
+                      onClick={() => handleSendDirectEmail(directLinkModal.client)}
+                      className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                    >
+                      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <span>{sendingDirectEmail ? "Sending..." : "Email Link to Client"}</span>
+                    </button>
+
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                     <a
                       href={`https://wa.me/?text=${encodeURIComponent(
                         `Hello ${directLinkModal.client?.contact_name || directLinkModal.client?.company_name}, here is your private link to view your onboarding profile: ${directLinkModal.directUrl}`
@@ -1143,8 +1322,15 @@ const AdminAddClient = () => {
 
               <div className="px-6 border-b border-slate-100 flex items-center gap-6 overflow-x-auto text-xs font-bold">
                 {[
+<<<<<<< HEAD
                   { id: "plans", label: "Assigned Plans" },
                   { id: "agreement", label: "Agreement & Signature" },
+=======
+                  { id: "overview", label: "Overview & Balance" },
+                  { id: "plans", label: "Assigned Plans" },
+                  { id: "agreement", label: "Agreement & Signature" },
+                  { id: "payments", label: "Payment History" },
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -1170,6 +1356,74 @@ const AdminAddClient = () => {
                   </div>
                 ) : clientDetails ? (
                   <>
+<<<<<<< HEAD
+=======
+                    {viewTab === "overview" && (
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                            <span className="text-xs font-semibold text-slate-500 uppercase">Total Contract Value</span>
+                            <div className="text-2xl font-extrabold text-slate-900 mt-1">
+                              {formatCurrency(clientDetails.total_amount, clientDetails.currency)}
+                            </div>
+                            <span className="text-[11px] text-slate-400 mt-1 block">
+                              {(clientDetails.assigned_plans || []).length} plans assigned
+                            </span>
+                          </div>
+
+                          <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200">
+                            <span className="text-xs font-semibold text-emerald-800 uppercase">Amount Paid</span>
+                            <div className="text-2xl font-extrabold text-emerald-700 mt-1">
+                              {formatCurrency(clientDetails.amount_paid, clientDetails.currency)}
+                            </div>
+                            <span className="text-[11px] text-emerald-600 mt-1 block">
+                              Status: {clientDetails.payment_status}
+                            </span>
+                          </div>
+
+                          <div className="p-4 rounded-2xl bg-rose-50/60 border border-rose-200">
+                            <span className="text-xs font-semibold text-rose-800 uppercase">Amount Pending</span>
+                            <div className="text-2xl font-extrabold text-rose-700 mt-1">
+                              {formatCurrency(clientDetails.amount_pending, clientDetails.currency)}
+                            </div>
+                            <span className="text-[11px] text-rose-600 mt-1 block">
+                              Outstanding Due
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-4">
+                          <h4 className="font-extrabold text-slate-900 text-sm">Account Specification</h4>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Registered Contact:</span>
+                              <span className="font-bold text-slate-800 mt-0.5 block">{clientDetails.contact_name}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Registered Email:</span>
+                              <span className="font-bold text-slate-800 mt-0.5 block">{clientDetails.email}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Portal Login ID:</span>
+                              <span className="font-bold text-indigo-600 mt-0.5 block font-mono">{clientDetails.login_id}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Business Sector:</span>
+                              <span className="font-bold text-slate-800 mt-0.5 block">{clientDetails.business_type || "General Business"}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Project Status:</span>
+                              <span className="mt-0.5 inline-block">{clientDetails.project_status}</span>
+                            </div>
+                            <div>
+                              <span className="text-slate-400 block font-semibold">Agreement Status:</span>
+                              <span className="mt-0.5 inline-block">{getSignatureBadge(clientDetails.signature_status)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
                     {viewTab === "plans" && (
                       <div className="space-y-4">
@@ -1227,11 +1481,131 @@ const AdminAddClient = () => {
                               )}
                             </div>
                           </div>
+<<<<<<< HEAD
+=======
+
+                          <button
+                            onClick={() => handleToggleSignature(clientDetails.id, clientDetails.signature_status)}
+                            className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors cursor-pointer"
+                          >
+                            {clientDetails.signature_status === "Signed" ? "Mark as Awaiting" : "Mark as Signed"}
+                          </button>
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                         </div>
                       </div>
                     )}
 
+<<<<<<< HEAD
 
+=======
+                    {viewTab === "payments" && (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-extrabold text-slate-900 text-sm">Recorded Payments</h4>
+                          <button
+                            onClick={() => setShowPaymentForm(!showPaymentForm)}
+                            className="px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-all cursor-pointer"
+                          >
+                            {showPaymentForm ? "Cancel" : "+ Record Payment"}
+                          </button>
+                        </div>
+
+                        {showPaymentForm && (
+                          <form
+                            onSubmit={handleRecordPaymentSubmit}
+                            className="p-4 rounded-2xl border border-indigo-200 bg-indigo-50/40 space-y-3"
+                          >
+                            <h5 className="font-bold text-slate-900 text-xs uppercase tracking-wide">
+                              Add New Payment Record
+                            </h5>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <div>
+                                <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                                  Amount (₹)
+                                </label>
+                                <input
+                                  type="number"
+                                  required
+                                  min="1"
+                                  step="any"
+                                  value={paymentForm.amount}
+                                  onChange={(e) => setPaymentForm({ ...paymentForm, amount: e.target.value })}
+                                  placeholder="e.g. 25000"
+                                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-bold"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                                  Payment Method
+                                </label>
+                                <select
+                                  value={paymentForm.payment_method}
+                                  onChange={(e) => setPaymentForm({ ...paymentForm, payment_method: e.target.value })}
+                                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-bold"
+                                >
+                                  <option value="UPI Transfer">UPI Transfer</option>
+                                  <option value="Bank Transfer">Bank Transfer / NEFT</option>
+                                  <option value="Credit / Debit Card">Credit / Debit Card</option>
+                                  <option value="Cheque">Cheque</option>
+                                  <option value="Cash">Cash</option>
+                                </select>
+                              </div>
+                              <div>
+                                <label className="block text-[11px] font-bold text-slate-600 mb-1">
+                                  Transaction ID
+                                </label>
+                                <input
+                                  type="text"
+                                  value={paymentForm.transaction_id}
+                                  onChange={(e) => setPaymentForm({ ...paymentForm, transaction_id: e.target.value })}
+                                  placeholder="e.g. TXN-94812"
+                                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs"
+                                />
+                              </div>
+                            </div>
+                            <div className="flex justify-end gap-2 pt-2">
+                              <button
+                                type="submit"
+                                disabled={recordingPayment}
+                                className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer"
+                              >
+                                {recordingPayment ? "Saving..." : "Save Payment"}
+                              </button>
+                            </div>
+                          </form>
+                        )}
+
+                        {clientDetails.payments?.length === 0 ? (
+                          <div className="p-8 text-center text-slate-400 border border-dashed rounded-2xl">
+                            No payment transactions recorded for this client yet.
+                          </div>
+                        ) : (
+                          <div className="border border-slate-200 rounded-2xl overflow-hidden divide-y divide-slate-100">
+                            {clientDetails.payments.map((pay) => (
+                              <div key={pay.id} className="p-4 flex items-center justify-between text-xs">
+                                <div>
+                                  <span className="font-extrabold text-slate-900 text-sm">
+                                    {formatCurrency(pay.amount, pay.currency)}
+                                  </span>
+                                  <span className="text-slate-500 block mt-0.5">
+                                    via {pay.payment_method} &bull; {pay.transaction_id || "N/A"}
+                                  </span>
+                                </div>
+                                <div className="text-right">
+                                  <span className="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                                    {pay.status}
+                                  </span>
+                                  <span className="block text-[11px] text-slate-400 mt-1">
+                                    {new Date(pay.payment_date).toLocaleDateString()}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
                   </>
                 ) : null}
@@ -1342,6 +1716,44 @@ const AdminAddClient = () => {
                       onClick={() => {
                         const c = actionMenu.client;
                         setActionMenu(null);
+<<<<<<< HEAD
+=======
+                        handleOpenView(c);
+                      }}
+                      className="w-full px-3.5 py-2 text-left text-xs font-bold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer group"
+                    >
+                      <span className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </span>
+                      <span>View Details</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const c = actionMenu.client;
+                        setActionMenu(null);
+                        handleOpenAddPlan(c);
+                      }}
+                      className="w-full px-3.5 py-2 text-left text-xs font-bold text-slate-700 hover:bg-purple-50 hover:text-purple-700 flex items-center gap-2.5 transition-colors cursor-pointer group"
+                    >
+                      <span className="p-1.5 rounded-lg bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </span>
+                      <span>Assign Plan</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const c = actionMenu.client;
+                        setActionMenu(null);
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
                         handleSendDirectEmail(c);
                       }}
                       className="w-full px-3.5 py-2 text-left text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2.5 transition-colors cursor-pointer group"

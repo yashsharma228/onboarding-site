@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AlertBanner from "./AlertBanner.jsx";
+=======
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const AdminLayout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+<<<<<<< HEAD
   const [flashBanner, setFlashBanner] = useState(() => {
     try {
       const stored = sessionStorage.getItem("flashBanner");
@@ -28,6 +34,8 @@ const AdminLayout = ({ children }) => {
     window.addEventListener("show-banner", handleCustomBanner);
     return () => window.removeEventListener("show-banner", handleCustomBanner);
   }, []);
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
   const handleLogout = () => {
     sessionStorage.removeItem("adminToken");
@@ -182,6 +190,7 @@ const AdminLayout = ({ children }) => {
         </div>
       </aside>
 
+<<<<<<< HEAD
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
@@ -190,6 +199,11 @@ const AdminLayout = ({ children }) => {
               <AlertBanner banner={flashBanner} onClose={() => setFlashBanner(null)} />
             </div>
           )}
+=======
+      {/* Main Content Area - Header removed as requested */}
+      <div className="flex-1 flex flex-col min-w-0">
+        <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
           {children}
         </main>
       </div>

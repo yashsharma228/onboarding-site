@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import api from "../services/api.js";
+<<<<<<< HEAD
 import AlertBanner from "../components/AlertBanner.jsx";
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const AdminDashboard = () => {
   const [signups, setSignups] = useState([]);
@@ -152,7 +155,40 @@ const AdminDashboard = () => {
       </div>
 
       {/* Alert Banner */}
+<<<<<<< HEAD
       <AlertBanner banner={banner} onClose={() => setBanner(null)} />
+=======
+      {banner && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`p-4 rounded-xl flex items-center justify-between shadow-xs ${
+            banner.type === "success"
+              ? "bg-emerald-50 border border-emerald-200 text-emerald-900"
+              : "bg-rose-50 border border-rose-200 text-rose-900"
+          }`}
+        >
+          <div className="flex items-center gap-3 text-sm font-semibold">
+            {banner.type === "success" ? (
+              <svg className="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5 text-rose-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            )}
+            <span>{banner.message}</span>
+          </div>
+          <button
+            onClick={() => setBanner(null)}
+            className="text-slate-400 hover:text-slate-600 text-sm font-bold ml-4"
+          >
+            &times;
+          </button>
+        </motion.div>
+      )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
       {/* Table Control Bar */}
       <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">

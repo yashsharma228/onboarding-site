@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import api from "../services/api.js";
+<<<<<<< HEAD
 import AlertBanner from "../components/AlertBanner.jsx";
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const ClientForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -60,6 +63,7 @@ const ClientForgotPassword = () => {
           </p>
         </div>
 
+<<<<<<< HEAD
         <AlertBanner
           banner={
             statusMessage
@@ -74,6 +78,52 @@ const ClientForgotPassword = () => {
           }}
           className="mb-6"
         />
+=======
+        {statusMessage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-start gap-3"
+          >
+            <svg
+              className="w-5 h-5 mt-0.5 shrink-0 text-emerald-600"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <div>
+              <p className="font-semibold">Reset Email Sent</p>
+              <p className="text-xs text-emerald-700 mt-1">{statusMessage}</p>
+            </div>
+          </motion.div>
+        )}
+
+        {errorMessage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-center gap-3"
+          >
+            <svg
+              className="w-5 h-5 shrink-0 text-rose-600"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span>{errorMessage}</span>
+          </motion.div>
+        )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

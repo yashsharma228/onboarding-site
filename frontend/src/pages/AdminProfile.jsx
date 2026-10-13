@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import api from "../services/api.js";
+<<<<<<< HEAD
 import AlertBanner from "../components/AlertBanner.jsx";
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const AdminProfile = () => {
   const [profileData, setProfileData] = useState({
@@ -186,11 +189,25 @@ const AdminProfile = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         <AlertBanner
           banner={profileFeedback}
           onClose={() => setProfileFeedback(null)}
           className="mb-6"
         />
+=======
+        {profileFeedback && (
+          <div
+            className={`mb-6 p-4 rounded-xl text-sm font-medium ${
+              profileFeedback.type === "success"
+                ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                : "bg-rose-50 text-rose-800 border border-rose-200"
+            }`}
+          >
+            {profileFeedback.message}
+          </div>
+        )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
         <form onSubmit={handleProfileSubmit} className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -263,11 +280,25 @@ const AdminProfile = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         <AlertBanner
           banner={passwordFeedback}
           onClose={() => setPasswordFeedback(null)}
           className="mb-6"
         />
+=======
+        {passwordFeedback && (
+          <div
+            className={`mb-6 p-4 rounded-xl text-sm font-medium ${
+              passwordFeedback.type === "success"
+                ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                : "bg-rose-50 text-rose-800 border border-rose-200"
+            }`}
+          >
+            {passwordFeedback.message}
+          </div>
+        )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
         <form onSubmit={handlePasswordSubmit} className="space-y-5">
           <div>

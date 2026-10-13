@@ -8,11 +8,14 @@ async function initClientAccountsTables() {
     const [clientCols] = await pool.query("DESCRIBE clients");
     const colNames = clientCols.map((c) => c.Field);
 
+<<<<<<< HEAD
     if (!colNames.includes("direct_token")) {
       await pool.query("ALTER TABLE clients ADD COLUMN direct_token VARCHAR(255) NULL UNIQUE AFTER password_hash");
       console.log("Added column `direct_token` to `clients` table.");
     }
 
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
     if (!colNames.includes("is_archived")) {
       await pool.query("ALTER TABLE clients ADD COLUMN is_archived TINYINT(1) DEFAULT 0 AFTER project_status");
       console.log("Added column `is_archived` to `clients` table.");

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import api from "../services/api.js";
 import CKEditorDescription from "../components/CKEditorDescription.jsx";
+<<<<<<< HEAD
 import AlertBanner from "../components/AlertBanner.jsx";
+=======
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
 const AdminPlans = () => {
   const [plans, setPlans] = useState([]);
@@ -237,7 +240,40 @@ const AdminPlans = () => {
       </div>
 
       {/* Feedback Banner */}
+<<<<<<< HEAD
       <AlertBanner banner={feedback} onClose={() => setFeedback(null)} />
+=======
+      {feedback && (
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className={`p-4 rounded-2xl flex items-center justify-between text-sm ${
+            feedback.type === "success"
+              ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
+              : "bg-rose-50 border border-rose-200 text-rose-800"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            {feedback.type === "success" ? (
+              <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5 text-rose-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            )}
+            <span className="font-semibold">{feedback.message}</span>
+          </div>
+          <button
+            onClick={() => setFeedback(null)}
+            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+          >
+            ✕
+          </button>
+        </motion.div>
+      )}
+>>>>>>> 327cb1d9f08a9dd93004fcfb625bb7a799ad95ac
 
       {/* Main Table Card */}
       <div className="bg-white rounded-3xl shadow-xs border border-slate-200/80 overflow-hidden">
